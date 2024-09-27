@@ -39,7 +39,7 @@ public class CustomerService implements Serializable {
         UserData customer = new UserData(name, email, password, accountNumber, 0.0);  // Start with 0 balance
 
 
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("objects.ser"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Customers.ser"))) {
 
             oos.writeObject(customer);  // Writing first object
             System.out.println("Sign-up successful. Your account number is " + accountNumber);

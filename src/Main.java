@@ -47,57 +47,57 @@ public class Main {
             }
         }
 
-//        // At this point, the user is logged in or signed up
-//        BankAccount bankAccount = new BankAccount(customer, db);
+        // At this point, the user is logged in or signed up
+        BankAccount bankAccount = new BankAccount(customer);
 //        BankStatementManager statementManager = new BankStatementManager(bankAccount, db);
-//
-//        boolean running = true;
-//        while (running) {
-//            System.out.println("\nPlease choose a transaction: ");
-//            System.out.println("1. Deposit");
-//            System.out.println("2. Withdraw");
-//            System.out.println("3. Check Balance");
-//            System.out.println("4. Print Bank Statement");
-//            System.out.println("5. Export Bank Statement to File");
-//            System.out.println("6. Exit");
-//            System.out.print("Your choice: ");
-//            int choice = scanner.nextInt();
-//
-//            switch (choice) {
-//                case 1:
-//                    System.out.print("Enter deposit amount: ");
-//                    double depositAmount = scanner.nextDouble();
-//                    bankAccount.deposit(depositAmount);
-//                    break;
-//                case 2:
-//                    System.out.print("Enter withdrawal amount: ");
-//                    double withdrawAmount = scanner.nextDouble();
-//                    if (bankAccount.checkBalance() >= withdrawAmount) {
-//                        bankAccount.withdraw(withdrawAmount);
-//                    } else {
-//                        System.out.println("Insufficient funds.");
-//                    }
-//                    break;
-//                case 3:
-//                    System.out.println("Current Balance: " + bankAccount.checkBalance());
-//                    break;
-//                case 4:
-//                    // Print bank statement to console
-//                    bankAccount.printStatement();
-//                    break;
+
+        boolean running = true;
+        while (running) {
+            System.out.println("\nPlease choose a transaction: ");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Print Bank Statement");
+            System.out.println("5. Export Bank Statement to File");
+            System.out.println("6. Exit");
+            System.out.print("Your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter deposit amount: ");
+                    double depositAmount = scanner.nextDouble();
+                    bankAccount.deposit(depositAmount);
+                    break;
+                case 2:
+                    System.out.print("Enter withdrawal amount: ");
+                    double withdrawAmount = scanner.nextDouble();
+                    if (bankAccount.checkBalance() >= withdrawAmount) {
+                        bankAccount.withdraw(withdrawAmount);
+                    } else {
+                        System.out.println("Insufficient funds.");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Current Balance: R" + bankAccount.checkBalance());
+                    break;
+                case 4:
+                    // Print bank statement to console
+                    bankAccount.printStatement();
+                    break;
 //                case 5:
 //                    // Generate and export bank statement to a file
 //                    statementManager.generateStatement(); // Fetch transactions
 //                    statementManager.exportStatementToFile(); // Save to file
 //                    break;
-//                case 6:
-//                    running = false;
-//                    System.out.println("Exiting... Thank you for using the banking system!");
-//                    break;
-//                default:
-//                    System.out.println("Invalid choice, please try again.");
-//            }
-//        }
+                case 6:
+                    running = false;
+                    System.out.println("Exiting... Thank you for using the banking system!");
+                    break;
+                default:
+                    System.out.println("Invalid choice, please try again.");
+            }
+        }
 //
 //        try {
 //            db.close();  // Close the database connection

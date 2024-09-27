@@ -13,9 +13,11 @@ public class UserData  implements Serializable {
     private String transactionType;
     private double amount;
     private double balanceAfterTransaction;
-    private LocalDateTime dateTime;
+    private String dateTime;
+    private double balanceBeforeTransaction;
 
     public List<UserData> deserializedObjects;
+    private static final long serialVersionUID = 1L;
 
     public UserData()
     {
@@ -32,18 +34,37 @@ public class UserData  implements Serializable {
     }
 
     // Constructor for Transaction information
-    public UserData(String accountNumber, String transactionType, double amount, double balanceAfterTransaction, LocalDateTime dateTime) {
+    public UserData(String accountNumber, String transactionType, double amount,double balanceBeforeTransaction, double balanceAfterTransaction, String dateTime) {
         this.accountNumber = accountNumber;
         this.transactionType = transactionType;
         this.amount = amount;
         this.balanceAfterTransaction = balanceAfterTransaction;
         this.dateTime = dateTime;
+        this.balanceBeforeTransaction = balanceBeforeTransaction;
     }
 
-    public List<UserData> Deserialize()
+    public List<UserData> DeserializeCustomers()
     {
         deserializedObjects = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("objects.ser"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Customers.ser"))) {
+            while (true) {
+                try {
+                    UserData obj = (UserData) ois.readObject();  // Read each object
+                    deserializedObjects.add(obj);  // Add to the list
+                } catch (EOFException e) {
+                    break;  // End of file reached
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return deserializedObjects;
+    }
+
+    public List<UserData> DeserializeTransactions()
+    {
+        deserializedObjects = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("TransactionHistory.ser"))) {
             while (true) {
                 try {
                     UserData obj = (UserData) ois.readObject();  // Read each object
@@ -60,7 +81,7 @@ public class UserData  implements Serializable {
 
     public UserData isUserRegistered(String email)
     {
-        if (this.Deserialize().size() == 0)
+        if (this.DeserializeCustomers().size() == 0)
         {
             return null;
         }
@@ -71,6 +92,23 @@ public class UserData  implements Serializable {
         }
         return null;
     }
+
+    public void saveTransactions(List<UserData> data)
+    {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("TransactionHistory.ser"))) {
+            for (UserData obj : data) {
+                oos.writeObject(obj);  // Write each object back to the file
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 
 
 
@@ -140,11 +178,19 @@ public class UserData  implements Serializable {
         this.balanceAfterTransaction = balanceAfterTransaction;
     }
 
-    public LocalDateTime getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public double getBalanceBeforeTransaction() {
+        return balanceBeforeTransaction;
+    }
+
+    public void setBalanceBeforeTransaction(double balanceBeforeTransaction) {
+        this.balanceBeforeTransaction = balanceBeforeTransaction;
     }
 }
