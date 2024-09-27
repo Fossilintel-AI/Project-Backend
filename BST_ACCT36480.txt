@@ -1,0 +1,5 @@
+Bank Statement for Account: ACCT36480
+
+[Account number: ACCT36480| Type: Deposit| Amount: R10.0| BalanceBeforeTransaction: R1767.0| BalanceAfterTransaction: R1777.0] 
+[Account number: ACCT36480| Type: Withdrawal| Amount: R1.0| BalanceBeforeTransaction: R1777.0| BalanceAfterTransaction: R1776.0] 
+[Account number: ACCT36480| Type: Deposit| Amount: R100.0| BalanceBeforeTransaction: R1776.0| BalanceAfterTransaction: R1876.0] 
