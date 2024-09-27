@@ -85,11 +85,10 @@ public class Main {
                     // Print bank statement to console
                     bankAccount.printStatement();
                     break;
-//                case 5:
-//                    // Generate and export bank statement to a file
-//                    statementManager.generateStatement(); // Fetch transactions
-//                    statementManager.exportStatementToFile(); // Save to file
-//                    break;
+                case 5:
+                    // Generate and export bank statement to a file
+                    bankAccount.saveBankStatement();
+                    break;
                 case 6:
                     running = false;
                     System.out.println("Exiting... Thank you for using the banking system!");

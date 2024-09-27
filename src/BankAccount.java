@@ -1,6 +1,4 @@
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -129,6 +127,29 @@ public class BankAccount {
             System.out.println("[Account number: "+ transaction.getAccountNumber() + "| Type: "+ transaction.getTransactionType()+ "| Amount: R"+ transaction.getAmount() +"| BalanceBeforeTransaction: R"+transaction.getBalanceBeforeTransaction()+ "| BalanceAfterTransaction: R"+ transaction.getBalanceAfterTransaction() +"]");
            System.out.println();
         }
+    }
+
+    public void saveBankStatement(){
+        {
+            String filePath = "BST_" + customer.getAccountNumber() + ".txt";
+            List<UserData> History = customer.DeserializeTransactions();
+            if (History.isEmpty()) {
+                System.out.println("No transactions available to export.");
+                return;
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                writer.write("Bank Statement for Account: " + customer.getAccountNumber() + "\n\n");
+                for (UserData transaction : History) {
+                    writer.write("[Account number: "+ transaction.getAccountNumber() + "| Type: "+ transaction.getTransactionType()+ "| Amount: R"+ transaction.getAmount() +"| BalanceBeforeTransaction: R"+transaction.getBalanceBeforeTransaction()+ "| BalanceAfterTransaction: R"+ transaction.getBalanceAfterTransaction() +"] \n");
+
+                }
+                System.out.println("Bank statement exported to " + filePath);
+            } catch (IOException e) {
+                System.out.println("Error exporting bank statement: " + e.getMessage());
+            }
+        }
+
     }
 
 
