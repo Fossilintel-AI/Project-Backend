@@ -91,7 +91,7 @@ public class Main {
                     break;
                 case 6:
                     running = false;
-                    System.out.println("Exiting... Thank you for using the banking system!");
+                    System.out.println("Exiting... Thank you for using the banking system!, See you next time");
                     break;
                 default:
                     System.out.println("Invalid choice, please try again.");
