@@ -56,7 +56,7 @@ public class Main {
             System.out.println("3. Check Balance");
             System.out.println("4. Print Bank Statement");
             System.out.println("5. Export Bank Statement to File");
-            System.out.println("6. Transfer Money");
+            System.out.println("6. Transfer");
             System.out.println("7. Exit");
             System.out.print("Your choice: ");
             int choice = scanner.nextInt();

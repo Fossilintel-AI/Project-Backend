@@ -38,7 +38,7 @@ public class CustomerService implements Serializable {
 
         for (UserData customer : customers) {
             if (customer.getEmail().equals(email)) {
-                System.out.println("User already exists.");
+                System.out.println("User already exists,");
                 return null;
             }
         }

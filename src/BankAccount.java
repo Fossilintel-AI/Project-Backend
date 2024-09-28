@@ -59,7 +59,7 @@ public class BankAccount implements Serializable {
 
         UserData senderTransaction = new UserData(
                 customer.getAccountNumber(),
-                "Money Transfer",
+                "Transfer",
                 amount,
                 senderNewBalance + amount,
                 senderNewBalance,
@@ -82,7 +82,7 @@ public class BankAccount implements Serializable {
             // Step 5b: Create a "Credit Transfer" transaction for the recipient
             UserData recipientTransaction = new UserData(
                     recipient.getAccountNumber(),
-                    "Credit Transfer",
+                    "Transfer",
                     amount,
                     recipientNewBalance - amount,
                     recipientNewBalance,
