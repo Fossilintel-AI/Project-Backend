@@ -1,0 +1,13 @@
+Bank Statement for Account: ACCT779763
+
+Account Number  Type            Amount     Balance Before            Balance After            
+---------------------------------------------------------------------------
+ACCT779763      Money Transfer  R1000.00   R2141.00                  R1141.00                 
+ACCT779763      Deposit         R12.00     R2130.00                  R2142.00                 
+ACCT779763      Withdrawal      R1.00      R2142.00                  R2141.00                 
+ACCT779763      Deposit         R1212.00   R918.00                   R2130.00                 
+ACCT779763      Deposit         R12.00     R2130.00                  R2142.00                 
+ACCT779763      Withdrawal      R1.00      R2142.00                  R2141.00                 
+ACCT779763      Money Transfer  R1000.00   R2141.00                  R1141.00                 
+---------------------------------------------------------------------------
+Available balance                             R1141.00
