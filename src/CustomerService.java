@@ -17,6 +17,26 @@ public class CustomerService implements Serializable {
                 e.printStackTrace();
             }
         }
+        else {
+            System.out.println("File Already exist");
+        }
+
+        fileName = "TransactionHistory.ser";  // Name of the .ser file
+
+        // Check if the file exists, if not create it
+        file = new File(fileName);
+        if (!file.exists()) {
+            try (FileOutputStream fos = new FileOutputStream(fileName)) {
+                System.out.println(fileName + " has been created successfully.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            System.out.println("File Already exist");
+        }
+
+
     }
 
     // Login method to validate customer credentials

@@ -59,7 +59,7 @@ public class BankAccount implements Serializable {
 
         UserData senderTransaction = new UserData(
                 customer.getAccountNumber(),
-                "Transfer",
+                "Transfer--",
                 amount,
                 senderNewBalance + amount,
                 senderNewBalance,
@@ -82,7 +82,7 @@ public class BankAccount implements Serializable {
             // Step 5b: Create a "Credit Transfer" transaction for the recipient
             UserData recipientTransaction = new UserData(
                     recipient.getAccountNumber(),
-                    "Transfer",
+                    "Transfer++",
                     amount,
                     recipientNewBalance - amount,
                     recipientNewBalance,
@@ -133,7 +133,7 @@ public class BankAccount implements Serializable {
     }
 
     // Method to print the bank statement
-    public void printStatement() {
+    public String printStatement() {
         List<UserData> history;
 
         // Check if there are new transactions or load from file if none exist
@@ -141,34 +141,61 @@ public class BankAccount implements Serializable {
             history = customer.DeserializeTransactions();  // Load from file if no new transactions
             if (history.isEmpty()) {
                 System.out.println("No history available.");
-                return;
+                return "No history available.";
             }
         } else {
             // Save new transactions and then reload full history
-            customer.saveTransactions(transactions);
+            //customer.saveTransactions(transactions);
             history = customer.DeserializeTransactions();
         }
+//
+//        // Print bank statement header
+//        System.out.println("Bank Statement for Account: " + customer.getAccountNumber());
+//        System.out.printf("%-15s %-15s %-10s %-25s %-25s%n", "Account Number", "Type", "Amount", "Balance Before", "Balance After");
+//        System.out.println("---------------------------------------------------------------------------");
+//
+//        // Iterate through transaction history and print aligned output
+//        for (UserData transaction : history) {
+//            if (transaction.getAccountNumber().equals(customer.getAccountNumber())) {
+//                System.out.printf("%-15s %-15s %-10s %-25s %-25s%n",
+//                        transaction.getAccountNumber(),
+//                        transaction.getTransactionType(),
+//                        String.format("R%.2f", transaction.getAmount()),  // Format amount to 2 decimal places
+//                        String.format("R%.2f", transaction.getBalanceBeforeTransaction()),  // Balance before
+//                        String.format("R%.2f", transaction.getBalanceAfterTransaction()));  // Balance after
+//            }
+//        }
+//
+//        // Print the available balance at the end
+//        System.out.println("---------------------------------------------------------------------------");
+//        System.out.printf("%-45s R%.2f%n", "Available balance", customer.getBalance());  // Format available balance
 
-        // Print bank statement header
-        System.out.println("Bank Statement for Account: " + customer.getAccountNumber());
-        System.out.printf("%-15s %-15s %-10s %-25s %-25s%n", "Account Number", "Type", "Amount", "Balance Before", "Balance After");
-        System.out.println("---------------------------------------------------------------------------");
+        StringBuilder statement = new StringBuilder();
 
-        // Iterate through transaction history and print aligned output
+        // Add header to the bank statement
+        statement.append("Bank Statement for Account: ").append(customer.getAccountNumber()).append("\n");
+        statement.append(String.format("%-15s %-15s %-10s %-25s %-25s%n", "Account Number", "Type", "Amount", "Balance Before", "Balance After"));
+        statement.append("---------------------------------------------------------------------------\n");
+
+        // Iterate through transaction history and append aligned output
         for (UserData transaction : history) {
             if (transaction.getAccountNumber().equals(customer.getAccountNumber())) {
-                System.out.printf("%-15s %-15s %-10s %-25s %-25s%n",
+                statement.append(String.format("%-15s %-15s %-10s %-25s %-25s%n",
                         transaction.getAccountNumber(),
                         transaction.getTransactionType(),
                         String.format("R%.2f", transaction.getAmount()),  // Format amount to 2 decimal places
                         String.format("R%.2f", transaction.getBalanceBeforeTransaction()),  // Balance before
-                        String.format("R%.2f", transaction.getBalanceAfterTransaction()));  // Balance after
+                        String.format("R%.2f", transaction.getBalanceAfterTransaction())));  // Balance after
             }
         }
 
-        // Print the available balance at the end
-        System.out.println("---------------------------------------------------------------------------");
-        System.out.printf("%-45s R%.2f%n", "Available balance", customer.getBalance());  // Format available balance
+        // Append footer and available balance at the end
+        statement.append("---------------------------------------------------------------------------\n");
+        statement.append(String.format("%-45s R%.2f%n", "Available balance", customer.getBalance()));
+
+        // Return the complete bank statement as a string
+        return statement.toString();
+
     }
 
 

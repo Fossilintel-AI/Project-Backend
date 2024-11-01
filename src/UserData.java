@@ -43,23 +43,33 @@ public class UserData  implements Serializable {
         this.balanceBeforeTransaction = balanceBeforeTransaction;
     }
 
-    public List<UserData> DeserializeCustomers()
-    {
+    public List<UserData> DeserializeCustomers() {
         deserializedObjects = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Customers.ser"))) {
+
+        File file = new File("Customers.ser");
+
+        // Check if file exists and is not empty
+        if (!file.exists() || file.length() == 0) {
+            System.out.println("Customers.ser file does not exist or is empty. Returning an empty list.");
+            return deserializedObjects;  // Return an empty list if file is missing or empty
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             while (true) {
                 try {
                     UserData obj = (UserData) ois.readObject();  // Read each object
                     deserializedObjects.add(obj);  // Add to the list
                 } catch (EOFException e) {
-                    break;  // End of file reached
+                    break;  // End of file reached, stop reading
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            e.printStackTrace();  // Log the exception
         }
-        return deserializedObjects;
+
+        return deserializedObjects;  // Return the deserialized list
     }
+
 
     public List<UserData> DeserializeTransactions()
     {

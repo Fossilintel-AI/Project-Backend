@@ -1,0 +1,8 @@
+Bank Statement for Account: ACCT641347
+
+Account Number  Type            Amount     Balance Before            Balance After            
+---------------------------------------------------------------------------
+ACCT641347      Deposit         R1000.00   R0.00                     R1000.00                 
+ACCT641347      Withdrawal      R10.00     R1000.00                  R990.00                  
+---------------------------------------------------------------------------
+Available balance                             R990.00
