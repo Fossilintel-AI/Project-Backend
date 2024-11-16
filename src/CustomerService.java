@@ -24,9 +24,10 @@ public class CustomerService implements Serializable {
     }
 
     public UserData login(String email, String password) {
+
         List<UserData> customers = deserializeCustomers();
         for (UserData customer : customers) {
-            if (customer.getEmail().equals(email) && customer.getPassword().equals(password)) {
+            if (customer.getEmail().equals(email) && decrypt( customer.getPassword(),4).equals(password)) {
                 System.out.println("Login successful. Welcome, " + customer.getName() + "!");
                 return customer;
             }
@@ -36,6 +37,8 @@ public class CustomerService implements Serializable {
     }
 
     public UserData signUp(String name, String email, String password) {
+
+        password = encrypt(password,4);
         List<UserData> customers = deserializeCustomers();
         for (UserData customer : customers) {
             if (customer.getEmail().equals(email)) {
@@ -49,6 +52,29 @@ public class CustomerService implements Serializable {
         saveCustomers(customers);
         System.out.println("Sign-up successful. Your account number is " + accountNumber);
         return newCustomer;
+    }
+
+    public static String encrypt(String text, int shift) {
+        StringBuilder encrypted = new StringBuilder();
+        int maxAsciiValue = 255; // Max ASCII value
+
+        for (char ch : text.toCharArray()) {
+            int shiftedValue = (ch + shift) % (maxAsciiValue + 1);
+            encrypted.append((char) shiftedValue);
+        }
+        return encrypted.toString();
+    }
+
+    // Method to decrypt a string
+    public static String decrypt(String text, int shift) {
+        StringBuilder decrypted = new StringBuilder();
+        int maxAsciiValue = 255; // Max ASCII value
+
+        for (char ch : text.toCharArray()) {
+            int shiftedValue = (ch - shift + (maxAsciiValue + 1)) % (maxAsciiValue + 1);
+            decrypted.append((char) shiftedValue);
+        }
+        return decrypted.toString();
     }
 
     private String generateAccountNumber() {

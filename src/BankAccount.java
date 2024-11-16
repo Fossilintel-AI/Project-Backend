@@ -24,7 +24,9 @@ public class BankAccount implements Serializable {
             updateCustomerBalanceInFile(newBalance, customer);
             System.out.println("Deposit successful. New balance: " + newBalance);
         } else {
-            System.out.println("Invalid deposit amount.");
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Deposit amount must be greater than zero.");
+            }
         }
     }
 
@@ -38,11 +40,14 @@ public class BankAccount implements Serializable {
             updateCustomerBalanceInFile(newBalance, customer);
             System.out.println("Withdrawal successful. New balance: " + newBalance);
         } else {
-            System.out.println("Insufficient funds or invalid amount.");
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Withdrawal amount must be greater than zero.");
+            }
         }
     }
 
     public void Transfer(String email, double amount) {
+        if (amount > 0) {
         UserData traverser = new UserData();
         UserData recipient = traverser.isUserRegistered(email);
         double senderNewBalance = customer.getBalance() - amount;
@@ -61,6 +66,11 @@ public class BankAccount implements Serializable {
             appendTransaction(recipientTransaction);
             updateCustomerBalanceInFile(senderNewBalance, recipient);
             System.out.println("Recipient's account credited with R" + amount + ". New balance: R" + recipientNewBalance);
+        }}
+        else {
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Transfer amount must be greater than zero.");
+            }
         }
     }
 

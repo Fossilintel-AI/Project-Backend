@@ -316,6 +316,7 @@ public class MainWindow {
         this.ShowBalance(showBalanceButton);
         this.PrintStatement(printBalanceButton);
         this.SaveStatement(saveBalanceButton);
+
         return panel;
     }
 
@@ -329,13 +330,24 @@ public class MainWindow {
             if (option == JOptionPane.OK_OPTION) {
                 try {
                     double amount = Double.parseDouble(amountField.getText());
-                    bankAccount.deposit(amount);  // Perform deposit
-                    JOptionPane.showMessageDialog(frame, "Successfully deposited: R" + amount, "Deposit", JOptionPane.INFORMATION_MESSAGE);
+
+                    if (amount <= 0) {
+                        JOptionPane.showMessageDialog(frame,
+                                "Deposit amount must be greater than zero.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                    else {
+                        bankAccount.deposit(amount);  // Perform deposit
+                        JOptionPane.showMessageDialog(frame, "Successfully deposited: R" + amount, "Deposit", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Invalid amount. Please enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
+            balanceWarning();
         });
+
     }
 
     private void WithdrawalEvent(JButton withdrawalButton) {
@@ -348,18 +360,27 @@ public class MainWindow {
             if (option == JOptionPane.OK_OPTION) {
                 try {
                     double amount = Double.parseDouble(amountField.getText());
+                    if (amount <= 0) {
+                        JOptionPane.showMessageDialog(frame,
+                                "Deposit amount must be greater than zero.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                    else {
 
-                    // Check for sufficient balance before withdrawing
-                    if (bankAccount.checkBalance() >= amount) {
-                        bankAccount.withdraw(amount);
-                        JOptionPane.showMessageDialog(frame, "Successfully withdrawn: R" + amount, "Withdrawal", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(frame, "Insufficient funds.", "Withdrawal Failed", JOptionPane.ERROR_MESSAGE);
+                        // Check for sufficient balance before withdrawing
+                        if (bankAccount.checkBalance() >= amount) {
+                            bankAccount.withdraw(amount);
+                            JOptionPane.showMessageDialog(frame, "Successfully withdrawn: R" + amount, "Withdrawal", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Insufficient funds.", "Withdrawal Failed", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Invalid amount. Please enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
+            balanceWarning();
         });
     }
 
@@ -408,6 +429,7 @@ public class MainWindow {
                     }
                 }
             }
+            balanceWarning();
         });
 
     }
@@ -416,6 +438,7 @@ public class MainWindow {
         showBalanceButton.addActionListener(e -> {
             double balance = bankAccount.checkBalance();
             JOptionPane.showMessageDialog(frame, "Available balance: R" + balance, "Balance", JOptionPane.INFORMATION_MESSAGE);
+            balanceWarning();
         });
     }
 
@@ -431,5 +454,13 @@ public class MainWindow {
             bankAccount.saveBankStatement();
             JOptionPane.showMessageDialog(frame, "Bank statement saved", "Bank Statement", JOptionPane.INFORMATION_MESSAGE);
         });
+    }
+
+    private void balanceWarning()
+    {
+        if (bankAccount.checkBalance() < 100)
+        {
+            JOptionPane.showConfirmDialog(frame,"Heads up! Your balance is low. Take action to ensure uninterrupted service.","Alert!!!",JOptionPane.WARNING_MESSAGE);
+        }
     }
 }

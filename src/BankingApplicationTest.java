@@ -106,6 +106,55 @@ public class BankingApplicationTest {
         assertTrue(transactionsFile.exists(), "TransactionHistory.ser file should exist.");
     }
 
+    @Test
+    public void testDepositNegativeValue() {
+        BankAccount bankAccount = new BankAccount(user);
+        double initialBalance = bankAccount.checkBalance();
+        double negativeDeposit = -50.0;
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            bankAccount.deposit(negativeDeposit);
+        });
+
+        assertEquals("Deposit amount must be greater than zero.", exception.getMessage());
+        assertEquals(initialBalance, bankAccount.checkBalance(), "Balance should remain unchanged after attempting a negative deposit.");
+    }
+
+    @Test
+    public void testWithdrawNegativeValue() {
+        BankAccount bankAccount = new BankAccount(user);
+        double initialBalance = bankAccount.checkBalance();
+        double negativeWithdraw = -100.0;
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            bankAccount.withdraw(negativeWithdraw);
+        });
+
+        assertEquals("Withdrawal amount must be greater than zero.", exception.getMessage());
+        assertEquals(initialBalance, bankAccount.checkBalance(), "Balance should remain unchanged after attempting a negative withdrawal.");
+    }
+
+    @Test
+    public void testTransferNegativeValue() {
+        // Create another user for the transfer
+        UserData recipient = customerService.signUp("Recipient User", "recipient@example.com", "password456");
+        BankAccount senderAccount = new BankAccount(user);
+        BankAccount recipientAccount = new BankAccount(recipient);
+
+        senderAccount.deposit(200.0); // Deposit to sender's account
+        double initialSenderBalance = senderAccount.checkBalance();
+        double initialRecipientBalance = recipientAccount.checkBalance();
+        double negativeTransfer = -75.0;
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            senderAccount.Transfer(recipient.getEmail(), negativeTransfer);
+        });
+
+        assertEquals("Transfer amount must be greater than zero.", exception.getMessage());
+        assertEquals(initialSenderBalance, senderAccount.checkBalance(), "Sender's balance should remain unchanged after attempting a negative transfer.");
+        assertEquals(initialRecipientBalance, recipientAccount.checkBalance(), "Recipient's balance should remain unchanged after attempting a negative transfer.");
+    }
+
     @AfterEach
     public void tearDown() {
         // Optionally clean up test data
